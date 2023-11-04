@@ -10,11 +10,10 @@ import opencv2
 
 var originalImage: CGImage = {
 #if os(macOS)
-    let image = NSImage(named: "test")!
+    return NSImage(named: "test")!.cgImage(forProposedRect: nil, context: nil, hints: nil)!
 #else
-    let image = UIImage(named: "test")!
+    return UIImage(named: "test")!.cgImage!
 #endif
-    return image.cgImage!
 }()
 
 struct ContentView: View {
@@ -103,12 +102,7 @@ struct ContentView: View {
                 .imageScale(.large)
                 .foregroundColor(.accentColor)
             Button("Test") {
-#if os(macOS)
-                let image = NSImage(named: "test")!
-#else
-                let image = UIImage(named: "test")!
-#endif
-                self.image = test(image.cgImage!)
+                self.image = test(originalImage)
             }
             if let image {
                 Image(image, scale: 1, label: Text("Test"))
